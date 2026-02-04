@@ -52,3 +52,29 @@ window.addEventListener("keyup", (e) => {
 });
 
 gameLoop();
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener("touchstart", (e) => {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault(); // stops scrolling
+
+  const touch = e.touches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // horizontal swipe
+    player.direction.x = dx > 0 ? 1 : -1;
+    player.direction.y = 0;
+  } else {
+    // vertical swipe
+    player.direction.y = dy > 0 ? 1 : -1;
+    player.direction.x = 0;
+  }
+});
